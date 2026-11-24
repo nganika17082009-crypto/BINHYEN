@@ -2,5 +2,7 @@
   "name": "Góc Bình Yên THPT",
   "description": "Không gian thư giãn, giải tỏa áp lực học tập, thi cử và tự đánh giá tâm lý (PSS-10) dành cho học sinh THPT.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

@@ -4,8 +4,10 @@ import {
   AlertCircle,
   BookOpen,
   CheckCircle2,
+  HeartHandshake,
   Info,
   Lightbulb,
+  Phone,
   RotateCcw,
 } from 'lucide-react';
 
@@ -109,7 +111,11 @@ interface EvaluationResult {
   tone: 'low' | 'medium' | 'high';
 }
 
-export function Pss10View() {
+interface Pss10ViewProps {
+  onOpenSupport: () => void;
+}
+
+export function Pss10View({ onOpenSupport }: Pss10ViewProps) {
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [missingId, setMissingId] = useState<number | null>(null);
   const [result, setResult] = useState<EvaluationResult | null>(null);
@@ -494,6 +500,30 @@ export function Pss10View() {
                         )}
                       </p>
                     </div>
+                  </div>
+                </div>
+
+                {/* Contextual Support Actions */}
+                <div className="pt-2 flex flex-wrap items-center justify-between gap-3">
+                  <span className="text-xs text-[#4A5952]">
+                    Cần người lắng nghe hoặc chia sẻ thêm về kết quả này?
+                  </span>
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <button
+                      type="button"
+                      onClick={onOpenSupport}
+                      className="inline-flex items-center gap-2 px-4 py-2 min-h-[40px] rounded-xl text-xs font-semibold bg-white border border-[#C8D4CE] text-[#165B4D] hover:bg-[#EEF5F2] transition-colors cursor-pointer whitespace-nowrap"
+                    >
+                      <HeartHandshake className="w-4 h-4 shrink-0" aria-hidden="true" />
+                      <span>Liên hệ Tổ Tư vấn Tâm lý</span>
+                    </button>
+                    <a
+                      href="tel:111"
+                      className="inline-flex items-center gap-2 px-4 py-2 min-h-[40px] rounded-xl text-xs font-semibold bg-[#18221E] text-white hover:bg-[#27352F] transition-colors whitespace-nowrap"
+                    >
+                      <Phone className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                      <span>Gọi Tổng đài 111</span>
+                    </a>
                   </div>
                 </div>
               </div>

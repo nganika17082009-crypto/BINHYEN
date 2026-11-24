@@ -1,10 +1,21 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ClipboardList, FileText, Gamepad2, Leaf, Volume2, VolumeX, Wind } from 'lucide-react';
+import {
+  ClipboardList,
+  FileText,
+  Gamepad2,
+  HeartHandshake,
+  Leaf,
+  Phone,
+  Volume2,
+  VolumeX,
+  Wind,
+} from 'lucide-react';
 import { BreathingView } from './components/BreathingView';
 import { CrumpleDiaryView } from './components/CrumpleDiaryView';
 import { FidgetView } from './components/FidgetView';
 import { Pss10View } from './components/Pss10View';
+import { SupportModal } from './components/SupportModal';
 import { ambientEngine, AmbientPreset } from './utils/audio';
 
 type TabId = 'breath' | 'diary' | 'fidget' | 'pss10';
@@ -27,6 +38,7 @@ export default function App() {
   const [ambientPreset, setAmbientPreset] = useState<AmbientPreset>('rain');
   const [ambientVolume, setAmbientVolume] = useState(0.55);
   const [heroImageError, setHeroImageError] = useState(false);
+  const [isSupportOpen, setIsSupportOpen] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -214,9 +226,48 @@ export default function App() {
 
             {activeTab === 'fidget' && <FidgetView />}
 
-            {activeTab === 'pss10' && <Pss10View />}
+            {activeTab === 'pss10' && <Pss10View onOpenSupport={() => setIsSupportOpen(true)} />}
           </motion.div>
         </AnimatePresence>
+
+        {/* Always-Accessible Psychological Support Strip */}
+        <section
+          aria-label="Kênh hỗ trợ tâm lý"
+          className="mt-8 bg-white border border-[#DCE2DD] rounded-2xl p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-[0_6px_18px_rgba(24,34,30,0.025)]"
+        >
+          <div className="flex items-start gap-3.5">
+            <div className="w-10 h-10 rounded-xl bg-[#EEF5F2] border border-[#C8DCD4] flex items-center justify-center shrink-0">
+              <HeartHandshake className="w-5 h-5 text-[#1D6F5E]" aria-hidden="true" />
+            </div>
+            <div>
+              <h2 className="font-sans text-base font-semibold text-[#18221E]">
+                Cần người lắng nghe hoặc hỗ trợ khẩn cấp?
+              </h2>
+              <p className="text-xs sm:text-sm text-[#586760] mt-0.5">
+                Đừng giữ áp lực một mình — kết nối ngay với thầy cô tư vấn tại trường hoặc tổng đài miễn phí 24/7.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <button
+              type="button"
+              onClick={() => setIsSupportOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl text-sm font-semibold border border-[#B8D4C9] bg-[#EEF5F2] text-[#165B4D] hover:bg-[#E1EFE9] transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1D6F5E]"
+            >
+              <HeartHandshake className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>Liên hệ Tổ Tư vấn Tâm lý</span>
+            </button>
+
+            <a
+              href="tel:111"
+              className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl text-sm font-semibold bg-[#18221E] text-white hover:bg-[#27352F] transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#18221E]"
+            >
+              <Phone className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>Gọi Tổng đài 111</span>
+            </a>
+          </div>
+        </section>
       </main>
 
       {/* Quiet Footer with delicate botanical divider flourish */}
@@ -225,8 +276,10 @@ export default function App() {
           <Leaf className="w-3.5 h-3.5 text-[#1D6F5E]" aria-hidden="true" />
           <span>Góc Bình Yên — Công cụ thư giãn &amp; tự chăm sóc tinh thần</span>
         </span>
-        <span>Nếu cần hỗ trợ chuyên sâu, hãy liên hệ phòng tham vấn tâm lý tại trường hoặc người thân tin cậy.</span>
+        <span>Tổng đài Bảo vệ Trẻ em &amp; Học sinh: 111 (Miễn phí, 24/7).</span>
       </footer>
+
+      <SupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
 
       {/* Mobile Bottom Tab Bar */}
       <nav
